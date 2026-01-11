@@ -1,0 +1,325 @@
+/* Morning Calm Theme - Adem & Nyaman */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'DM Sans', sans-serif;
+}
+
+body {
+    background: linear-gradient(160deg, #f5f5f0 0%, #e8efe5 40%, #dce8d8 100%);
+    min-height: 100vh;
+    color: #3d4a3f;
+}
+
+.section {
+    background: transparent;
+}
+
+/* Glassmorphism card */
+.box {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 32px rgba(100, 120, 100, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Typography */
+.title {
+    color: #3d4a3f;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #6b7c6b;
+}
+
+.label {
+    color: #5a6b5a;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+/* Form elements */
+.input, .select select {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1.5px solid #d4ddd4;
+    border-radius: 12px;
+    color: #3d4a3f;
+    transition: all 0.25s ease;
+}
+
+.input:focus, .select select:focus {
+    border-color: #9bb59b;
+    box-shadow: 0 0 0 4px rgba(155, 181, 155, 0.15);
+    background: #fff;
+}
+
+.input::placeholder {
+    color: #a0b0a0;
+}
+
+/* Primary button - Soft sage */
+.button.is-primary {
+    background: linear-gradient(135deg, #7a9b7a 0%, #6b8c6b 100%);
+    border: none;
+    border-radius: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 1.2em 1.5em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(107, 140, 107, 0.25);
+}
+
+.button.is-primary:hover {
+    background: linear-gradient(135deg, #6b8c6b 0%, #5c7d5c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(107, 140, 107, 0.35);
+}
+
+/* Result display */
+.is-size-1 {
+    color: #4a5c4a;
+    font-weight: 700;
+}
+
+/* Tags - Muted version */
+.tag {
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+}
+
+.tag.is-danger { background: #f0d4d4; color: #8b5a5a; }
+.tag.is-danger.is-light { background: #f5e5e5; color: #9b6a6a; }
+.tag.is-warning { background: #e8dfc8; color: #7a6b4a; }
+.tag.is-warning.is-light { background: #f0ead8; color: #8a7b5a; }
+.tag.is-primary { background: #c8d8c8; color: #4a6a4a; }
+.tag.is-primary.is-light { background: #d8e8d8; color: #5a7a5a; }
+.tag.is-success { background: #c0d8c0; color: #3a5a3a; }
+.tag.is-medium { padding: 0.6em 1em; }
+
+/* Progress bar */
+.progress {
+    border-radius: 10px;
+    height: 10px;
+    background: #e0e8e0;
+}
+
+.progress::-webkit-progress-value { 
+    border-radius: 10px;
+    background: linear-gradient(90deg, #7a9b7a, #6b8c6b); 
+}
+.progress.is-success::-webkit-progress-value { background: linear-gradient(90deg, #7a9b7a, #5a8a5a); }
+.progress.is-primary::-webkit-progress-value { background: linear-gradient(90deg, #7a9b7a, #6b8c6b); }
+.progress.is-warning::-webkit-progress-value { background: linear-gradient(90deg, #c4b078, #a89860); }
+.progress.is-danger::-webkit-progress-value { background: linear-gradient(90deg, #c49090, #a87878); }
+
+/* Message boxes - Soft */
+.message {
+    border-radius: 14px;
+    background: transparent;
+}
+
+.message.is-info .message-body {
+    background: rgba(200, 216, 200, 0.4);
+    border: 1px solid rgba(155, 181, 155, 0.3);
+    border-radius: 12px;
+    color: #4a6a4a;
+}
+
+.message.is-success .message-body {
+    background: rgba(192, 216, 192, 0.4);
+    border-color: rgba(120, 160, 120, 0.3);
+    color: #3a5a3a;
+}
+
+.message.is-warning .message-body {
+    background: rgba(232, 223, 200, 0.5);
+    border-color: rgba(200, 180, 140, 0.3);
+    color: #6a5a3a;
+}
+
+/* Slider */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #9bb59b, #d4ddd4);
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #7a9b7a;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(107, 140, 107, 0.3);
+    transition: all 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 12px rgba(107, 140, 107, 0.4);
+}
+
+/* Feature detail section */
+.has-text-info { color: #5a7a5a !important; }
+.has-text-warning { color: #7a6b4a !important; }
+
+/* Placeholder state */
+.box[style*="min-height"] {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Footer */
+.has-text-grey {
+    color: #8a9a8a !important;
+}
+
+/* Flatpickr override */
+.flatpickr-calendar {
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(100, 120, 100, 0.15);
+    border: 1px solid rgba(155, 181, 155, 0.2);
+}
+
+/* Subtle animation on load */
+.box {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Select dropdown arrow color */
+.select:not(.is-multiple):not(.is-loading)::after {
+    border-color: #7a9b7a;
+}
+
+/* Responsive Design - Mobile */
+@media screen and (max-width: 768px) {
+    /* Container padding */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Section padding lebih kecil */
+    .section {
+        padding: 1rem 0.5rem;
+    }
+    
+    /* Box padding lebih kecil */
+    .box {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+    
+    /* Title lebih kecil */
+    .title {
+        font-size: 1.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    /* Font size engagement rate lebih kecil */
+    .is-size-1 {
+        font-size: 2.5rem !important;
+    }
+    
+    /* Button padding lebih kecil */
+    .button.is-primary {
+        padding: 1em 1.2em;
+        font-size: 0.95rem;
+    }
+    
+    /* Message body font size */
+    .message-body {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+    
+    /* Code font size */
+    code {
+        font-size: 0.85rem !important;
+    }
+    
+    /* Progress bar height */
+    .progress {
+        height: 8px;
+    }
+}
+
+/* Responsive Design - Small Mobile */
+@media screen and (max-width: 480px) {
+    /* Section padding lebih kecil lagi */
+    .section {
+        padding: 0.75rem 0.25rem;
+    }
+    
+    /* Box padding lebih kecil */
+    .box {
+        padding: 0.75rem;
+        border-radius: 12px;
+    }
+    
+    /* Title lebih kecil */
+    .title {
+        font-size: 1.25rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    /* Font size engagement rate lebih kecil */
+    .is-size-1 {
+        font-size: 2rem !important;
+    }
+    
+    /* Label font size */
+    .label {
+        font-size: 0.8rem;
+    }
+    
+    /* Input font size */
+    .input, .select select {
+        font-size: 0.9rem;
+        padding: 0.5em 0.75em;
+    }
+    
+    /* Button lebih kecil */
+    .button.is-primary {
+        padding: 0.9em 1em;
+        font-size: 0.9rem;
+    }
+    
+    /* Message body lebih kecil */
+    .message-body {
+        font-size: 0.85rem;
+        padding: 0.6rem;
+    }
+    
+    /* Code lebih kecil */
+    code {
+        font-size: 0.75rem !important;
+        word-break: break-all;
+    }
+    
+    /* Details summary */
+    details summary {
+        font-size: 0.75rem !important;
+    }
+}

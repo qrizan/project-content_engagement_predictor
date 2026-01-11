@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Engagement Predictor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <section class="section">
+        <div class="container" style="max-width: 600px;">
+            <!-- Header -->
+            <div class="has-text-centered mb-5">
+                <h1 class="title">Content Engagement Predictor</h1>
+                <p class="subtitle">Prediksi engagement rate konten TikTok & YouTube</p>
+            </div>
+
+            <!-- Form -->
+            {% if not result %}
+            <div class="box mb-4">
+                <form method="POST">
+                    <!-- Platform & Creator Tier -->
+                    <div class="columns is-mobile">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label is-small">Platform</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="platform">
+                                            {% for p in platforms %}
+                                            <option value="{{ p }}" {% if form_data.platform == p %}selected{% endif %}>{{ p }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label is-small">Creator Tier</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="creator_tier">
+                                            {% for tier, views in creator_tiers.items() %}
+                                            <option value="{{ tier }}" {% if form_data.creator_tier == tier %}selected{% endif %}>{{ tier }} ({{ views }})</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category & Genre -->
+                    <div class="columns is-mobile">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label is-small">Category</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="category">
+                                            {% for c in categories %}
+                                            <option value="{{ c }}" {% if form_data.category == c %}selected{% endif %}>{{ c }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label is-small">Genre</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="genre">
+                                            {% for g in genres %}
+                                            <option value="{{ g }}" {% if form_data.genre == g %}selected{% endif %}>{{ g }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   <div class="columns is-mobile">
+                        <div class="column">                    
+                            <!-- Event Season -->
+                            <div class="field">
+                                <label class="label is-small">Event Season</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="event_season">
+                                            {% for e in event_seasons %}
+                                            <option value="{{ e }}" {% if form_data.event_season == e %}selected{% endif %}>{{ e }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column">                                           <!-- Upload DateTime -->
+                            <div class="field">
+                                <label class="label is-small">Tanggal & Waktu Upload</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="upload_datetime" id="upload_datetime"
+                                        value="{{ form_data.upload_datetime }}" placeholder="Pilih tanggal & waktu...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Duration -->
+                    <div class="field">
+                        <label class="label is-small">Duration: <strong id="duration-value">{{ form_data.duration_sec }}</strong>s</label>
+                        <input type="range" name="duration_sec" min="5" max="180" 
+                               value="{{ form_data.duration_sec }}"
+                               oninput="document.getElementById('duration-value').textContent = this.value">
+                    </div>
+
+                    <!-- Title -->
+                    <div class="field">
+                        <label class="label is-small">Video Title</label>
+                        <div class="control">
+                            <input class="input" type="text" name="title" 
+                                   value="{{ form_data.title }}" placeholder="Masukkan judul video..." required>
+                        </div>
+                    </div>
+
+                    <!-- Hashtags -->
+                    <div class="field">
+                        <label class="label is-small">Hashtags</label>
+                        <div class="control">
+                            <input class="input" type="text" name="hashtags" 
+                                   value="{{ form_data.hashtags }}" placeholder="#viral #fyp">
+                        </div>
+                    </div>
+
+                    <!-- Info -->
+                    <article class="message is-info is-small">
+                        <div class="message-body">
+                            <strong>Market Default:</strong> {{ default_settings.country_name }} ({{ default_settings.country }}) • {{ default_settings.region }} • {{ default_settings.language_name }}
+                        </div>
+                    </article>
+
+                    <!-- Submit -->
+                    <button type="submit" class="button is-primary is-fullwidth">
+                        Prediksi
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- Result -->
+            {% if result %}
+            <div class="box">
+                <!-- Main Result -->
+                <div class="has-text-centered">
+                    <p class="is-size-7 has-text-grey mb-2">Hasil Prediksi</p>
+                    <p class="is-size-1 has-text-weight-bold">{{ result.engagement_rate }}%</p>
+                </div>
+
+                <!-- Progress dengan Label Skala -->
+                <div class="mb-4">
+                    <div class="is-flex is-justify-content-space-between mb-1">
+                        <span class="is-size-7 has-text-grey">0%</span>
+                        <span class="is-size-7 has-text-grey">20%</span>
+                    </div>
+                    <progress class="progress" 
+                        value="{{ result.engagement_rate }}" max="20">
+                    </progress>
+                    <p class="is-size-7 has-text-grey has-text-centered mt-1">
+                        <em>Skala 0-20% berdasarkan distribusi data dari dataset</em>
+                    </p>
+                </div>
+
+                <!-- Comparison -->
+                <article class="message {% if result.position == 'di atas' %}is-success{% else %}is-warning{% endif %}">
+                    <div class="message-body has-text-centered">
+                        <p class="is-size-6 has-text-weight-semibold mb-1">
+                            Rata-rata {{ form_data.platform }}: <strong>{{ result.platform_avg }}%</strong>
+                        </p>
+                        <p class="is-size-7">
+                            Hasil Anda <strong>{{ result.position }}</strong> rata-rata ({{ result.diff_percent }}%)
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Expandable: Model Features -->
+                <details class="mt-3">
+                    <summary class="is-size-7 has-text-weight-bold" style="cursor: pointer; color: #5a6b5a;">
+                        Detail Model dan Fitur
+                    </summary>
+                    <!-- Raw Model Output -->
+                    <div class="has-text-centered mt-4 p-3" style="background: #f5f7f5; border-radius: 10px; border: 1px solid #e0e8e0;">
+                        <p class="is-size-7 has-text-grey mb-1">Raw Model Output</p>
+                        <code class="is-size-6" style="color: #3d4a3f;">model.predict() = <strong>{{ result.raw_prediction }}</strong></code>
+                    </div>                    
+                    <div class="mt-3">
+                        <div class="columns is-mobile">
+                            <div class="column">
+                                <p class="has-text-weight-bold is-size-7 mb-2">Input User</p>
+                                <p class="is-size-7">platform: {{ result.all_features.platform }}</p>
+                                <p class="is-size-7">genre: {{ result.all_features.genre }}</p>
+                                <p class="is-size-7">category: {{ result.all_features.category }}</p>
+                                <p class="is-size-7">duration: {{ result.all_features.duration_sec }}s</p>
+                                <p class="is-size-7">tier: {{ result.all_features.creator_tier }}</p>
+                                <p class="is-size-7">event: {{ result.all_features.event_season }}</p>
+                            </div>
+                            <div class="column">
+                                <p class="has-text-weight-bold is-size-7 mb-2">Dihitung Otomatis</p>
+                                <p class="is-size-7">title_length: {{ result.all_features.title_length }}</p>
+                                <p class="is-size-7">has_emoji: {{ result.all_features.has_emoji }}</p>
+                                <p class="is-size-7">title_keywords: <span class="has-text-grey">{{ result.all_features.title_keywords[:30] }}{% if result.all_features.title_keywords|length > 30 %}...{% endif %}</span></p>
+                                <p class="is-size-7">hashtag: <span class="has-text-grey">{{ result.all_features.hashtag if result.all_features.hashtag else '(kosong)' }}</span></p>
+                                <p class="is-size-7">upload_hour: {{ result.all_features.upload_hour }}</p>
+                                <p class="is-size-7">period: {{ result.all_features.publish_period }}</p>
+                                <p class="is-size-7">day: {{ result.all_features.publish_dayofweek }}</p>
+                                <p class="is-size-7">weekend: {{ result.all_features.is_weekend }}</p>
+                                <p class="is-size-7">season: {{ result.all_features.season }}</p>
+                                <p class="is-size-7">avg_views: {{ result.all_features.creator_avg_views }}</p>
+                            </div>
+                        </div>
+                        <p class="is-size-7 has-text-grey mt-2">
+                            <strong>Default:</strong> country={{ result.all_features.country }}, 
+                            region={{ result.all_features.region }}, lang={{ result.all_features.language }}, tags="{{ result.all_features.tags }}"
+                        </p>
+                    </div>
+                </details>
+
+                <div class="has-text-centered mt-5">
+                    <a href="/" class="button is-primary is-fullwidth">
+                        Prediksi Lagi
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Footer -->
+            <p class="has-text-centered has-text-grey is-size-7 mt-5">
+                Final Project
+            </p>
+        </div>
+    </section>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Hanya inisialisasi Flatpickr jika form ada
+        const uploadDatetimeInput = document.getElementById("upload_datetime");
+        if (uploadDatetimeInput) {
+            flatpickr("#upload_datetime", {
+                enableTime: true,
+                dateFormat: "Y-m-dTH:i",
+                altInput: true,
+                altFormat: "j F Y, H:i",
+                time_24hr: true,
+                minDate: new Date(),
+                locale: {
+                    firstDayOfWeek: 1,
+                    weekdays: {
+                        shorthand: ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"],
+                        longhand: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+                    },
+                    months: {
+                        shorthand: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+                        longhand: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
