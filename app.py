@@ -187,9 +187,17 @@ def index():
         
         # perbandingan rata2 platform dengan prediksi
         platform_avg = PLATFORM_AVG.get(form_data["platform"], 0.07)
-        position = "di atas" if prediction > platform_avg else "di bawah"
-        diff_percent = abs(prediction - platform_avg) * 100
-        
+        diff = prediction - platform_avg
+        diff_percent = abs(diff) * 100
+
+        # menentukan posisi dengan toleransi untuk floating point
+        if abs(diff) < 0.0001:  # untuk nilai yang sama
+            position = "sama dengan"
+        elif diff > 0:
+            position = "di atas"
+        else:
+            position = "di bawah"
+
         result = {
             "engagement_rate": round(prediction * 100, 2),
             "platform_avg": round(platform_avg * 100, 2),
