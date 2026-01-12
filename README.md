@@ -23,5 +23,7 @@ Akses aplikasi di: `http://localhost:5000`
 
 ## Dokumentasi
 - [Detail Fitur Model](FEATURE.md)
+- [Model](model/)
 - [Prediksi](PREDICT.md)
+- [Presentasi](presentation/)
 
