@@ -185,24 +185,19 @@ def index():
         
         prediction = model.predict(df)[0]
         
-        # perbandingan rata2 platform dengan prediksi
+        # langsung bulatkan prediksi untuk range
+        prediction_percent = prediction * 100
+        lower_bound = max(0, int(prediction_percent))
+        upper_bound = lower_bound + 1
+        engagement_rate_range = f"{lower_bound}% - {upper_bound}%"
+        
+        # rata-rata platform untuk perbandingan
         platform_avg = PLATFORM_AVG.get(form_data["platform"], 0.07)
-        diff = prediction - platform_avg
-        diff_percent = abs(diff) * 100
-
-        # menentukan posisi dengan toleransi untuk floating point
-        if abs(diff) < 0.0001:  # untuk nilai yang sama
-            position = "sama dengan"
-        elif diff > 0:
-            position = "di atas"
-        else:
-            position = "di bawah"
 
         result = {
-            "engagement_rate": round(prediction * 100, 2),
+            "engagement_rate": engagement_rate_range,  # format: "9% - 10%"
+            "engagement_rate_mid": round(prediction_percent, 1),  # nilai tengah untuk progress bar
             "platform_avg": round(platform_avg * 100, 2),
-            "position": position,
-            "diff_percent": round(diff_percent, 2),
             
             # 20 fitur 
             "all_features": {

@@ -158,8 +158,8 @@
             <div class="box">
                 <!-- Main Result -->
                 <div class="has-text-centered">
-                    <p class="is-size-7 has-text-grey mb-2">Hasil Prediksi</p>
-                    <p class="is-size-1 has-text-weight-bold">{{ result.engagement_rate }}%</p>
+                    <p class="is-size-7 has-text-grey mb-2">Hasil Prediksi (Estimasi)</p>
+                    <p class="is-size-1 has-text-weight-bold">{{ result.engagement_rate }}</p>
                 </div>
 
                 <!-- Progress dengan Label Skala -->
@@ -169,37 +169,21 @@
                         <span class="is-size-7 has-text-grey">20%</span>
                     </div>
                     <progress class="progress" 
-                        value="{{ result.engagement_rate }}" max="20">
+                        value="{{ result.engagement_rate_mid }}" max="20">
                     </progress>
                     <p class="is-size-7 has-text-grey has-text-centered mt-1">
                         <em>Skala 0-20% berdasarkan distribusi data dari dataset</em>
                     </p>
                 </div>
 
-                <!-- Comparison -->
-                {% if result.diff_percent > 0.01 %}
-                <article class="message {% if result.position == 'di atas' %}is-success{% else %}is-warning{% endif %}">                    
+
+                <article class="message is-info">                    
                     <div class="message-body has-text-centered">
                         <p class="is-size-6 has-text-weight-semibold mb-1">
                             Rata-rata {{ form_data.platform }}: <strong>{{ result.platform_avg }}%</strong>
                         </p>
-                        <p class="is-size-7">
-                            Hasil Anda <strong>{{ result.position }}</strong> rata-rata ({{ result.diff_percent }}%)
-                        </p>
                     </div>                    
                 </article>
-                {% else %}
-                <article class="message is-info">
-                    <div class="message-body has-text-centered">
-                        <p class="is-size-6 has-text-weight-semibold mb-1">
-                            Rata-rata {{ form_data.platform }}: <strong>{{ result.platform_avg }}%</strong>
-                        </p>
-                        <p class="is-size-7">
-                            Hasil Anda <strong>sama dengan</strong> rata-rata
-                        </p>
-                    </div>                    
-                </article>
-                {% endif %}
 
                 <!-- Expandable: Model Features -->
                 <details class="mt-3">
