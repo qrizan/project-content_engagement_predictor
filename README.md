@@ -19,7 +19,7 @@ Akses aplikasi di: `http://localhost:5000`
 - **Backend**: Flask + Python
 - **Frontend**: Jinja2 + Bulma CSS
 - **ML Model**: scikit-learn (Random Forest Regressor)
-- **Deployment**: Docker + Railway
+- **Deployment**: Docker + Render
 
 ## Dokumentasi
 - [Detail Fitur Model](FEATURE.md)
